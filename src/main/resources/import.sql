@@ -1,0 +1,1 @@
+CREATE DATABESE IF NOT EXISTS bancookaydb CHARACTER SET UTF8mb4 COLLATE collate utf8mb4_bin;
