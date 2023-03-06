@@ -1,4 +1,4 @@
-package com.org.apibancookay.configuration;
+package com.org.apibancookay.configurations;
 
 import java.util.Arrays;
 

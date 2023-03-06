@@ -1,7 +1,7 @@
 package com.org.apibancookay.models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,13 +26,13 @@ public class Customer implements Serializable {
 	@Column(length = 6, nullable = false, unique = true)
 	private String password;
 	@Column(nullable = false)
-	private Date birthDate;
+	private LocalDate birthDate;
 	
 	public Customer() {
 		super();
 	}
 
-	public Customer(Long id, String name, String cpf, String rg, String email, String password, Date birthDate) {
+	public Customer(Long id, String name, String cpf, String rg, String email, String password, LocalDate birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -91,11 +91,11 @@ public class Customer implements Serializable {
 		this.password = password;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

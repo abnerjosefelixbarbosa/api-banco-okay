@@ -1,7 +1,7 @@
-package com.org.apibancookay.dto;
+package com.org.apibancookay.dtos;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -26,13 +26,13 @@ public class CustomerDTO implements Serializable {
 	@Size(min = 6, max = 6)
 	private String password;
 	@NotNull
-	private Date birthDate;
+	private LocalDate birthDate;
 	
 	public CustomerDTO() {
 		super();
 	}
 
-	public CustomerDTO(Long id, String name, String cpf, String rg, String email, String password, Date birthDate) {
+	public CustomerDTO(Long id, String name, String cpf, String rg, String email, String password, LocalDate birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -91,11 +91,11 @@ public class CustomerDTO implements Serializable {
 		this.password = password;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
