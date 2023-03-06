@@ -1,1 +1,1 @@
-CREATE DATABESE IF NOT EXISTS bancookaydb CHARACTER SET UTF8mb4 COLLATE collate utf8mb4_bin;
+--create database if not exists db_bancookay character set UTF8mb4 collate utf8mb4_bin;
