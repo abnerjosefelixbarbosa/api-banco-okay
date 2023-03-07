@@ -1,5 +1,6 @@
 package com.org.apibancookay;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -33,64 +34,94 @@ public class CustomerControllerTest {
 		MvcResult mvcResult = mockMvc.perform(get(url))
 				.andReturn();
 		
+		System.out.println(mvcResult.getResponse().getContentAsString());
 		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
 	}
 	
 	@Test
 	@Disabled
-	public void getCustomersById() throws Exception {
+	public void getCustomerById() throws Exception {
 		String url = String.format("/customers/%d", 1L);
 		MvcResult mvcResult = mockMvc.perform(get(url))
 				.andReturn();
 		
+		System.out.println(mvcResult.getResponse().getContentAsString());
 		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
 	}
 
 	@Test
 	@Disabled
 	public void createCustomer() throws Exception {
-		//SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); 
-		//Date date = formato.parse("1991-01-16");
-		LocalDate date = LocalDate.parse("1991-01-16");
-		Customer customer = new Customer();
-		customer.setId(1L);
-		customer.setName("Alberto Camara");
-		customer.setCpf("94961215430");
-		customer.setRg("36.825.176");
-		customer.setEmail("clientea@gmail.com");
-		customer.setPassword("481228");		
-		customer.setBirthDate(date);
-		String json = objectMapper.writeValueAsString(customer);
+		LocalDate date1 = LocalDate.parse("1991-01-16");
+		Customer customer1 = new Customer();
+		customer1.setId(1L);
+		customer1.setName("Alberto Camara");
+		customer1.setCpf("949.612.154-30");
+		customer1.setRg("36.825.176");
+		customer1.setEmail("cliente1@gmail.com");
+		customer1.setPassword("481228");		
+		customer1.setBirthDate(date1);
+		
+		LocalDate date2 = LocalDate.parse("2005-01-17");
+		Customer customer2 = new Customer();
+		customer2.setId(2L);
+		customer2.setName("Barbara Cardoso");
+		customer2.setCpf("370.897.974-57");
+		customer2.setRg("29.254.761");
+		customer2.setEmail("cliente2@gmail.com");
+		customer2.setPassword("583245");		
+		customer2.setBirthDate(date2);
+		
+		String json = objectMapper.writeValueAsString(customer2);		
 		String url = String.format("/customers");
-
-		MvcResult mvcResult = mockMvc.perform(post(url)
+        MvcResult mvcResult = mockMvc.perform(post(url)
 			   .contentType("application/json")
 			   .content(json))
 		       .andReturn();
 		
+        System.out.println(mvcResult.getResponse().getContentAsString());
 		Assertions.assertEquals(201, mvcResult.getResponse().getStatus());
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	public void updateCustomer() throws Exception {
-		//SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); 
-		//Date date = formato.parse("1991-01-16");
-		LocalDate date = LocalDate.parse("1991-01-16");
-		Customer customer = new Customer();
-		customer.setId(1L);
-		customer.setName("Alberto Camar");
-		customer.setCpf("94961215430");
-		customer.setRg("36.825.176");
-		customer.setEmail("clientea@gmail.com");
-		customer.setPassword("481228");		
-		customer.setBirthDate(date);
-		String json = objectMapper.writeValueAsString(customer);
-		String url = String.format("/customers/%d", 1L);		
+		LocalDate date1 = LocalDate.parse("1991-01-16");
+		Customer customer1 = new Customer();
+		customer1.setId(1L);
+		customer1.setName("Alberto Camara");
+		customer1.setCpf("949.612.154-30");
+		customer1.setRg("36.825.176");
+		customer1.setEmail("cliente1@gmail.com");
+		customer1.setPassword("481228");		
+		customer1.setBirthDate(date1);
 		
+		LocalDate date2 = LocalDate.parse("2005-01-17");
+		Customer customer2 = new Customer();
+		customer2.setId(2L);
+		customer2.setName("Barbara Cardoso");
+		customer2.setCpf("370.897.974-57");
+		customer2.setRg("29.254.761");
+		customer2.setEmail("cliente2@gmail.com");
+		customer2.setPassword("583245");		
+		customer2.setBirthDate(date2);
+		
+		String json = objectMapper.writeValueAsString(customer1);		
+		String url = String.format("/customers/%d", 1L);		
 		MvcResult mvcResult = mockMvc.perform(put(url)
 				   .contentType("application/json")
 				   .content(json))
+			       .andReturn();
+		
+		System.out.println(mvcResult.getResponse().getContentAsString());
+		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+	}
+	
+	@Test
+	@Disabled
+	public void deleteCustomerById() throws Exception {
+		String url = String.format("/customers/%d", 1L);		
+		MvcResult mvcResult = mockMvc.perform(delete(url))
 			       .andReturn();
 			
 		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());

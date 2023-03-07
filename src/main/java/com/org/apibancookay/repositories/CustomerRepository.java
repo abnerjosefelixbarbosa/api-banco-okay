@@ -1,4 +1,4 @@
-package com.org.apibancookay.repository;
+package com.org.apibancookay.repositories;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,4 +12,8 @@ import com.org.apibancookay.models.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	@Query("select customer from Customer customer")
 	Page<?> getCustomers(Pageable pageable);
+	boolean existsByCpf(String cpf);
+	boolean existsByRg(String rg);
+	boolean existsByEmail(String email);
+	boolean existsByPassword(String password);
 }

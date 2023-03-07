@@ -27,21 +27,6 @@ public class Customer implements Serializable {
 	private String password;
 	@Column(nullable = false)
 	private LocalDate birthDate;
-	
-	public Customer() {
-		super();
-	}
-
-	public Customer(Long id, String name, String cpf, String rg, String email, String password, LocalDate birthDate) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.rg = rg;
-		this.email = email;
-		this.password = password;
-		this.birthDate = birthDate;
-	}
 
 	public Long getId() {
 		return id;

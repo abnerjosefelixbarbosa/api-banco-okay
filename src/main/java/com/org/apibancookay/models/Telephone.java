@@ -2,6 +2,7 @@ package com.org.apibancookay.models;
 
 import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,20 +19,9 @@ public class Telephone implements Serializable {
 	private Long id;
 	@Column(length = 20, nullable = false, unique = true)
 	private String telephone;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
 	private Customer customer;
-	
-	public Telephone() {
-		super();
-	}
-	
-	public Telephone(Long id, String telephone, Customer customer) {
-		super();
-		this.id = id;
-		this.telephone = telephone;
-		this.customer = customer;
-	}
 
 	public Long getId() {
 		return id;

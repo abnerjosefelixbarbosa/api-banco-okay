@@ -2,6 +2,7 @@ package com.org.apibancookay.models;
 
 import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,36 +19,19 @@ public class Address implements Serializable {
 	private Long id;
 	@Column(nullable = false)
 	private Integer number;
-	@Column(nullable = false)
+	@Column(length = 20, nullable = false)
 	private String zipCode;
-	@Column(nullable = false)
+	@Column(length = 100, nullable = false)
 	private String address;
-	@Column(nullable = false)
+	@Column(length = 20, nullable = false)
 	private String neighborhood;
-	@Column(nullable = false)
+	@Column(length = 20, nullable = false)
 	private String city;
-	@Column(nullable = false)
+	@Column(length = 2, nullable = false)
 	private String state;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
 	private Customer customer;
-	
-	public Address() {
-		super();
-	}
-
-	public Address(Long id, Integer number, String zipCode, String address, String neighborhood, String city,
-			String state, Customer customer) {
-		super();
-		this.id = id;
-		this.number = number;
-		this.zipCode = zipCode;
-		this.address = address;
-		this.neighborhood = neighborhood;
-		this.city = city;
-		this.state = state;
-		this.customer = customer;
-	}
 
 	public Long getId() {
 		return id;

@@ -22,42 +22,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.org.apibancookay.dtos.CustomerDTO;
-import com.org.apibancookay.interfaces.CustomerMethod;
-import com.org.apibancookay.models.Customer;
+import com.org.apibancookay.dtos.AccountDTO;
+import com.org.apibancookay.interfaces.AccountMethod;
+import com.org.apibancookay.models.Account;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/accounts")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class CustomerController {
+public class AccountController {
 	@Autowired
-	private CustomerMethod customerMethod;
+	private AccountMethod accountMethod;
 	
 	@GetMapping
-	public ResponseEntity<?> getCustomers() {	
-		Collection<Customer> customers = customerMethod.getCustomers();
+	public ResponseEntity<?> getAccounts() {	
+		Collection<Account> customers = accountMethod.getAccounts();
 		return ResponseEntity.status(200).body(customers);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getCustomerById(@PathVariable Long id) {
-		Customer customer = customerMethod.getCustomerById(id);
-		if (customer == null) {
-			return ResponseEntity.status(404).body(customer);
+	public ResponseEntity<?> getAccountById(@PathVariable Long id) {
+		Account account = accountMethod.getAccountById(id);
+		if (account == null) {
+			return ResponseEntity.status(404).body(account);
 		}
 		
-		return ResponseEntity.status(200).body(customer);
+		return ResponseEntity.status(200).body(account);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> createCustomer(@RequestBody @Valid CustomerDTO customerDTO) {
-		Customer customer = new Customer();
-		BeanUtils.copyProperties(customerDTO, customer);
+	public ResponseEntity<?> createAccount(@RequestBody @Valid AccountDTO accountDTO) {
+		Account account = new Account();
+		BeanUtils.copyProperties(accountDTO, account);
 
-		String result = customerMethod.createCustomer(customer);
-		if (!result.equals("customer created")) {
+		String result = accountMethod.createAccount(account);
+		if (!result.equals("account created")) {
 			return ResponseEntity.status(400).body(result);
 		}
 
@@ -65,26 +65,26 @@ public class CustomerController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody @Valid CustomerDTO customerDTO) {
-		Customer customer = new Customer();
-		BeanUtils.copyProperties(customerDTO, customer);
+	public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody @Valid AccountDTO accountDTO) {
+		Account account = new Account();
+		BeanUtils.copyProperties(accountDTO, account);
 
-		String result = customerMethod.updateCustomer(id, customer);
-		if (!result.equals("customer updated")) {
-			return ResponseEntity.status(404).body(result);
+		account = accountMethod.updateAccount(id, account);
+		if (account == null) {
+			return ResponseEntity.status(404).body("account not found");
 		}
 
-		return ResponseEntity.status(200).body(result);
+		return ResponseEntity.status(200).body("account updated");
 	}
 	
     @DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteCustomerById(@PathVariable Long id) {
-		Customer customer = customerMethod.deleteCustomerById(id);
-		if (customer == null) {
-			return ResponseEntity.status(404).body("customer not found");
+	public ResponseEntity<?> deleteAccountById(@PathVariable Long id) {
+    	Account account = accountMethod.deleteAccountById(id);
+		if (account == null) {
+			return ResponseEntity.status(404).body("account not found");
 		}
 		
-		return ResponseEntity.status(200).body("customer deleted");
+		return ResponseEntity.status(200).body("account deleted");
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

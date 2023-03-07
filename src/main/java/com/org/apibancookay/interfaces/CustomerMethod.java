@@ -7,6 +7,7 @@ import com.org.apibancookay.models.Customer;
 public interface CustomerMethod {
 	Collection<Customer> getCustomers();
 	Customer getCustomerById(Long id);
-	Customer createCustomer(Customer customer);
-	Customer updateCustomer(Long id, Customer customer);
+	String createCustomer(Customer customer);
+	String updateCustomer(Long id, Customer customer);
+	Customer deleteCustomerById(Long id);
 }

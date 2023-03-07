@@ -27,21 +27,6 @@ public class CustomerDTO implements Serializable {
 	private String password;
 	@NotNull
 	private LocalDate birthDate;
-	
-	public CustomerDTO() {
-		super();
-	}
-
-	public CustomerDTO(Long id, String name, String cpf, String rg, String email, String password, LocalDate birthDate) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.rg = rg;
-		this.email = email;
-		this.password = password;
-		this.birthDate = birthDate;
-	}
 
 	public Long getId() {
 		return id;

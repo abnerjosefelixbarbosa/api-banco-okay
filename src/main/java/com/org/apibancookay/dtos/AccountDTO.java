@@ -1,33 +1,28 @@
-package com.org.apibancookay.models;
+package com.org.apibancookay.dtos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.org.apibancookay.models.Customer;
 
-@Entity
-@Table(name = "account")
-public class Account implements Serializable {
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+public class AccountDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+	@NotNull
 	private Long id;
-	@Column(length = 20, nullable = false, unique = true)
+	@NotEmpty
 	private String agency;
-	@Column(length = 20, nullable = false, unique = true)
+	@NotEmpty
 	private String account;
-	@Column(scale = 2, nullable = false)
+	@DecimalMin(value = "0.01")
 	private BigDecimal balance;
-	@Column(length = 4, nullable = false, unique = true)
+	@NotEmpty
 	private String password;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+	@NotNull
 	private Customer customer;
 
 	public Long getId() {
@@ -38,20 +33,20 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
 	public String getAgency() {
 		return agency;
 	}
 
 	public void setAgency(String agency) {
 		this.agency = agency;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	public BigDecimal getBalance() {
@@ -80,7 +75,7 @@ public class Account implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", agency=" + agency + ", account=" + account + ", balance=" + balance
+		return "AccountDTO [id=" + id + ", agency=" + agency + ", account=" + account + ", balance=" + balance
 				+ ", password=" + password + "]";
 	}
 }
