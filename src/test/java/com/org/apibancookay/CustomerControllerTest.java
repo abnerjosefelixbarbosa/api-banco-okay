@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,28 +30,39 @@ public class CustomerControllerTest {
 	
 	@Test
 	@Disabled
+	@DisplayName("obter todos os clientes")
 	public void getCustomers() throws Exception {
 		String url = String.format("/customers");
 		MvcResult mvcResult = mockMvc.perform(get(url))
 				.andReturn();
 		
-		System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		String json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		Customer[] customers = objectMapper.readValue(json, Customer[].class);
+		for (Customer customer : customers) {
+			System.out.println(customer.toString());
+		}
+		Assertions.assertEquals(200, status);
 	}
 	
 	@Test
 	@Disabled
+	@DisplayName("obter cliente pelo id")
 	public void getCustomerById() throws Exception {
 		String url = String.format("/customers/%d", 1L);
 		MvcResult mvcResult = mockMvc.perform(get(url))
 				.andReturn();
 		
-		System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		String json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		Customer customer = objectMapper.readValue(json, Customer.class);
+		System.out.println(customer.toString());
+		Assertions.assertEquals(200, status);
 	}
 
 	@Test
 	@Disabled
+	@DisplayName("criar cliente")
 	public void createCustomer() throws Exception {
 		LocalDate date1 = LocalDate.parse("1991-01-16");
 		Customer customer1 = new Customer();
@@ -79,12 +91,15 @@ public class CustomerControllerTest {
 			   .content(json))
 		       .andReturn();
 		
-        System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(201, mvcResult.getResponse().getStatus());
+        json = mvcResult.getResponse().getContentAsString();
+        int status = mvcResult.getResponse().getStatus();
+        System.out.println(json);
+		Assertions.assertEquals(201, status);
 	}
 	
 	@Test
-	//@Disabled
+	@Disabled
+	@DisplayName("atualizar cliente")
 	public void updateCustomer() throws Exception {
 		LocalDate date1 = LocalDate.parse("1991-01-16");
 		Customer customer1 = new Customer();
@@ -113,17 +128,23 @@ public class CustomerControllerTest {
 				   .content(json))
 			       .andReturn();
 		
-		System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		System.out.println(json);
+		Assertions.assertEquals(200, status);
 	}
 	
 	@Test
 	@Disabled
+	@DisplayName("deletar cliente pelo id")
 	public void deleteCustomerById() throws Exception {
-		String url = String.format("/customers/%d", 1L);		
+		String url = String.format("/customers/%d", 2L);		
 		MvcResult mvcResult = mockMvc.perform(delete(url))
 			       .andReturn();
-			
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		
+		String json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		System.out.println(json);
+		Assertions.assertEquals(200, status);
 	}
 }

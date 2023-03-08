@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.org.apibancookay.interfaces.AccountMethod;
 import com.org.apibancookay.models.Account;
+import com.org.apibancookay.models.Customer;
 import com.org.apibancookay.repositories.AccountRepository;
 import com.org.apibancookay.repositories.CustomerRepository;
 
@@ -35,14 +36,19 @@ public class AccountService implements AccountMethod {
 	@Transactional
 	public String createAccount(Account account) {
 		if (!customerRepository.existsById(account.getCustomer().getId())) {
-			return "customer not found";
+			return "cliente não encontrado";
 		}
+		if (accountRepository.existsByCustomerId(account.getCustomer().getId())) {
+			return "cliente já registrado";
+		}
+		Customer customerFound = customerRepository.findById(account.getCustomer().getId()).get();
 		if (!accountRepository.existsById(account.getId())) {
+			account.setCustomer(customerFound);
 			accountRepository.save(account);
-			return "account created";
+			return "conta criada";
 		}
 		
-		return "account not created";
+		return "conta não criada";
 	}
 
 	@Transactional

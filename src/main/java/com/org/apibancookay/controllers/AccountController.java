@@ -57,7 +57,7 @@ public class AccountController {
 		BeanUtils.copyProperties(accountDTO, account);
 
 		String result = accountMethod.createAccount(account);
-		if (!result.equals("account created")) {
+		if (!result.equals("conta criada")) {
 			return ResponseEntity.status(400).body(result);
 		}
 

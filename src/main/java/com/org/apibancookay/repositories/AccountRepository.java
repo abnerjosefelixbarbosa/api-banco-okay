@@ -7,5 +7,5 @@ import com.org.apibancookay.models.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-
+	boolean existsByCustomerId(Long id);
 }

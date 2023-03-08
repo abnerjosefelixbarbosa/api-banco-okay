@@ -9,5 +9,5 @@ public interface CustomerMethod {
 	Customer getCustomerById(Long id);
 	String createCustomer(Customer customer);
 	String updateCustomer(Long id, Customer customer);
-	Customer deleteCustomerById(Long id);
+	String deleteCustomerById(Long id);
 }

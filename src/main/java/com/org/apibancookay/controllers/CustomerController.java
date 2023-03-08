@@ -57,7 +57,7 @@ public class CustomerController {
 		BeanUtils.copyProperties(customerDTO, customer);
 
 		String result = customerMethod.createCustomer(customer);
-		if (!result.equals("customer created")) {
+		if (!result.equals("cliente criado")) {
 			return ResponseEntity.status(400).body(result);
 		}
 
@@ -70,8 +70,11 @@ public class CustomerController {
 		BeanUtils.copyProperties(customerDTO, customer);
 
 		String result = customerMethod.updateCustomer(id, customer);
-		if (!result.equals("customer updated")) {
+		if (result.equals("cliente não encontrado")) {
 			return ResponseEntity.status(404).body(result);
+		}
+		if (!result.equals("cliente alterado")) {
+			return ResponseEntity.status(400).body(result);
 		}
 
 		return ResponseEntity.status(200).body(result);
@@ -79,12 +82,12 @@ public class CustomerController {
 	
     @DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCustomerById(@PathVariable Long id) {
-		Customer customer = customerMethod.deleteCustomerById(id);
-		if (customer == null) {
-			return ResponseEntity.status(404).body("customer not found");
+		String result = customerMethod.deleteCustomerById(id);
+		if (!result.equals("cliente deletado")) {
+			return ResponseEntity.status(404).body(result);
 		}
 		
-		return ResponseEntity.status(200).body("customer deleted");
+		return ResponseEntity.status(200).body(result);
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
