@@ -47,9 +47,19 @@ public class AccountService implements AccountMethod {
 		if (!customerRepository.existsById(account.getCustomer().getId())) {
 			return "id do cliente não encontrado";
 		}
-		if (accountRepository.existsByCustomerId(account.getCustomer().getId())) {
-			return "id do cliente já registrado na conta";
+		if (accountRepository.existsByAgency(account.getAgency())) {
+			return "agência já existe";
 		}
+		if (accountRepository.existsByAccount(account.getAccount())) {
+			return "conta já existe";
+		}
+		if (accountRepository.existsByPassword(account.getPassword())) {
+			return "senha já existe";
+		}
+		if (accountRepository.existsByCustomerId(account.getCustomer().getId())) {
+			return "id do cliente já existe";
+		}
+		
 		Customer customerFound = customerRepository.findById(account.getCustomer().getId()).get();
 		if (!accountRepository.existsById(account.getId())) {
 			account.setCustomer(customerFound);
@@ -67,6 +77,18 @@ public class AccountService implements AccountMethod {
 		}
 		if (id != account.getId()) {
 			return "id diferente";
+		}
+		if (accountRepository.existsByAgency(account.getAgency())) {
+			return "agência já existe";
+		}
+		if (accountRepository.existsByAccount(account.getAccount())) {
+			return "conta já existe";
+		}
+		if (accountRepository.existsByPassword(account.getPassword())) {
+			return "senha já existe";
+		}
+		if (accountRepository.existsByCustomerId(account.getCustomer().getId())) {
+			return "id do cliente já existe";
 		}
 		
 		Account accountFound = accountRepository.findById(id).get();

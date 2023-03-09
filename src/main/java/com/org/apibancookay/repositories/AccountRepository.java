@@ -7,5 +7,8 @@ import com.org.apibancookay.models.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+	boolean existsByAgency(String agency);
+	boolean existsByAccount(String account);
+	boolean existsByPassword(String password);
 	boolean existsByCustomerId(Long id);
 }
