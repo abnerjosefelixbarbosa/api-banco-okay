@@ -20,7 +20,7 @@ public class Telephone implements Serializable {
 	@Column(length = 20, nullable = false, unique = true)
 	private String telephone;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false, unique = true)
 	private Customer customer;
 
 	public Long getId() {

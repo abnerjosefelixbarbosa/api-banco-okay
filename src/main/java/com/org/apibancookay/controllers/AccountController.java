@@ -50,6 +50,16 @@ public class AccountController {
 		
 		return ResponseEntity.status(200).body(account);
 	}
+	
+	@GetMapping("/{cpf}/{password}")
+	public ResponseEntity<?> getAccountByCpfAndPassword(@PathVariable String cpf, @PathVariable String password) {
+		Account account = accountMethod.getAccountById(id);
+		if (account == null) {
+			return ResponseEntity.status(404).body(account);
+		}
+		
+		return ResponseEntity.status(200).body(account);
+	}
 
 	@PostMapping
 	public ResponseEntity<?> createAccount(@RequestBody @Valid AccountDTO accountDTO) {

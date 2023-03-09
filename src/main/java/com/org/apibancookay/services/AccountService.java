@@ -32,6 +32,12 @@ public class AccountService implements AccountMethod {
 		
 		return accountRepository.findById(id).get();
 	}
+	
+	@Override
+	public Account getAccountByCpfAndPassword(String cpf, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Transactional
 	public String createAccount(Account account) {
@@ -71,5 +77,4 @@ public class AccountService implements AccountMethod {
 		accountRepository.deleteById(id);
 		return new Account();
 	}
-
 }

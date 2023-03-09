@@ -30,7 +30,7 @@ public class Address implements Serializable {
 	@Column(length = 2, nullable = false)
 	private String state;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false, unique = true)
 	private Customer customer;
 
 	public Long getId() {

@@ -3,29 +3,34 @@ package com.org.apibancookay.dtos;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 public class CustomerDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@NotNull
+	@NotNull(message = "id nulo")
 	private Long id;
-	@NotEmpty
+	@Length(min = 100, max = 100, message = "nome até 100 caracteres")
+	@NotEmpty(message = "nome vazio")
 	private String name;
-	@CPF
+	@Length(min = 20, max = 20, message = "cpf até 20 caracteres")
+	@CPF(message = "cpf invalido")
 	private String cpf;
-	@NotEmpty
+	@Length(min = 20, max = 20, message = "rg até 20 caracteres")
+	@NotEmpty(message = "rg vazio")
 	private String rg;
-	@Email
+	@Length(min = 50, max = 50, message = "email até 50 caracteres")
+	@Email(message = "email invalido")
 	private String email;
-	@Size(min = 6, max = 6)
+	@Length(min = 6, max = 6, message = "senha até 6 caracteres")
+	@NotEmpty(message = "senha vazia")
 	private String password;
-	@NotNull
+	@NotNull(message = "data nula")
 	private LocalDate birthDate;
 
 	public Long getId() {

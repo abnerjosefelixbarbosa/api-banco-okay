@@ -3,6 +3,8 @@ package com.org.apibancookay.dtos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.org.apibancookay.models.Customer;
 
 import jakarta.validation.constraints.DecimalMin;
@@ -12,17 +14,20 @@ import jakarta.validation.constraints.NotNull;
 public class AccountDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@NotNull
+	@NotNull(message = "id nulo")
 	private Long id;
-	@NotEmpty
+	@Length(min = 20, max = 20, message = "agência até 20 caracteres")
+	@NotEmpty(message = "agência vazia")
 	private String agency;
-	@NotEmpty
+	@Length(min = 20, max = 20, message = "conta até 20 caracteres")
+	@NotEmpty(message = "conta vazia")
 	private String account;
-	@DecimalMin(value = "0.01")
+	@DecimalMin(value = "0.01", message = "valor minimo 0,01")
 	private BigDecimal balance;
-	@NotEmpty
+	@Length(min = 4, max = 4, message = "senha até 4 caracteres")
+	@NotEmpty(message = "senha vazia")
 	private String password;
-	@NotNull
+	@NotNull(message = "valor nulo")
 	private Customer customer;
 
 	public Long getId() {
