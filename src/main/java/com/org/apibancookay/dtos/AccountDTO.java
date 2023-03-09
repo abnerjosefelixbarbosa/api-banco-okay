@@ -16,15 +16,15 @@ public class AccountDTO implements Serializable {
 
 	@NotNull(message = "id nulo")
 	private Long id;
-	@Length(min = 20, max = 20, message = "agência até 20 caracteres")
+	@Length(max = 20, message = "agência até 20 caracteres")
 	@NotEmpty(message = "agência vazia")
 	private String agency;
-	@Length(min = 20, max = 20, message = "conta até 20 caracteres")
+	@Length(max = 20, message = "conta até 20 caracteres")
 	@NotEmpty(message = "conta vazia")
 	private String account;
 	@DecimalMin(value = "0.01", message = "valor minimo 0,01")
 	private BigDecimal balance;
-	@Length(min = 4, max = 4, message = "senha até 4 caracteres")
+	@Length(min = 4, max = 4, message = "senha de 4 caracteres")
 	@NotEmpty(message = "senha vazia")
 	private String password;
 	@NotNull(message = "valor nulo")

@@ -53,7 +53,7 @@ public class AccountController {
 	
 	@GetMapping("/{cpf}/{password}")
 	public ResponseEntity<?> getAccountByCpfAndPassword(@PathVariable String cpf, @PathVariable String password) {
-		Account account = accountMethod.getAccountById(id);
+		Account account = accountMethod.getAccountByCpfAndPassword(cpf, password);
 		if (account == null) {
 			return ResponseEntity.status(404).body(account);
 		}
@@ -79,22 +79,22 @@ public class AccountController {
 		Account account = new Account();
 		BeanUtils.copyProperties(accountDTO, account);
 
-		account = accountMethod.updateAccount(id, account);
-		if (account == null) {
-			return ResponseEntity.status(404).body("account not found");
+		String result = accountMethod.updateAccount(id, account);
+		if (!result.equals("conta alterada")) {
+			return ResponseEntity.status(404).body(result);
 		}
 
-		return ResponseEntity.status(200).body("account updated");
+		return ResponseEntity.status(200).body(result);
 	}
 	
     @DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteAccountById(@PathVariable Long id) {
-    	Account account = accountMethod.deleteAccountById(id);
-		if (account == null) {
-			return ResponseEntity.status(404).body("account not found");
+    	String result = accountMethod.deleteAccountById(id);
+		if (!result.equals("conta deletada")) {
+			return ResponseEntity.status(404).body(result);
 		}
 		
-		return ResponseEntity.status(200).body("account deleted");
+		return ResponseEntity.status(200).body(result);
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

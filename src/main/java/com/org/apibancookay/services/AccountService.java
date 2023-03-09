@@ -33,19 +33,22 @@ public class AccountService implements AccountMethod {
 		return accountRepository.findById(id).get();
 	}
 	
-	@Override
 	public Account getAccountByCpfAndPassword(String cpf, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!customerRepository.existsByCpfAndPassword(cpf, password)) {
+			return null;
+		}
+		
+		Customer customerFound = customerRepository.findByCpfAndPassword(cpf, password).get();
+		return accountRepository.findById(customerFound.getId()).get();
 	}
 
 	@Transactional
 	public String createAccount(Account account) {
 		if (!customerRepository.existsById(account.getCustomer().getId())) {
-			return "cliente não encontrado";
+			return "id do cliente não encontrado";
 		}
 		if (accountRepository.existsByCustomerId(account.getCustomer().getId())) {
-			return "cliente já registrado";
+			return "id do cliente já registrado na conta";
 		}
 		Customer customerFound = customerRepository.findById(account.getCustomer().getId()).get();
 		if (!accountRepository.existsById(account.getId())) {
@@ -58,23 +61,27 @@ public class AccountService implements AccountMethod {
 	}
 
 	@Transactional
-	public Account updateAccount(Long id, Account account) {
+	public String updateAccount(Long id, Account account) {
 		if (!accountRepository.existsById(id)) {
-			return null;
+			return "id não encontrado";
+		}
+		if (id != account.getId()) {
+			return "id diferente";
 		}
 		
 		Account accountFound = accountRepository.findById(id).get();
-		BeanUtils.copyProperties(account, accountFound);	
-		return accountRepository.save(accountFound);
+		BeanUtils.copyProperties(account, accountFound);
+		accountRepository.save(accountFound);	
+		return "conta alterada";
 	}
 
 	@Transactional
-	public Account deleteAccountById(Long id) {
+	public String deleteAccountById(Long id) {
 		if (!accountRepository.existsById(id)) {
-			return null;
+			return "id não encontrado";
 		}
 		
 		accountRepository.deleteById(id);
-		return new Account();
+		return "conta deletada";
 	}
 }

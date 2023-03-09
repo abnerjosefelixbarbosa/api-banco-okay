@@ -9,6 +9,6 @@ public interface AccountMethod {
 	Account getAccountById(Long id);
 	Account getAccountByCpfAndPassword(String cpf, String password);
 	String createAccount(Account account);
-	Account updateAccount(Long id, Account account);
-	Account deleteAccountById(Long id);
+	String updateAccount(Long id, Account account);
+	String deleteAccountById(Long id);
 }

@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,28 +31,49 @@ public class AccountControllerTest {
 
 	@Test
 	@Disabled
+	@DisplayName("obter contas")
 	public void getAccounts() throws Exception {
 		String url = String.format("/accounts");
 		MvcResult mvcResult = mockMvc.perform(get(url))
 				.andReturn();
 		
-		System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		String json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		System.out.println(json);
+		Assertions.assertEquals(200, status);
 	}
 	
 	@Test
 	@Disabled
+	@DisplayName("obter conta por id")
 	public void getAccountById() throws Exception {
 		String url = String.format("/accounts/%d", 1L);
 		MvcResult mvcResult = mockMvc.perform(get(url))
 				.andReturn();
 		
-		System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		String json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		System.out.println(json);
+		Assertions.assertEquals(200, status);
+	}
+	
+	@Test
+	@Disabled
+	@DisplayName("obter conta por cpf e senha")
+	public void getAccountByCpfAndPassword() throws Exception {
+		String url = String.format("/accounts/%s/%s", "949.612.154-30", "481228");
+		MvcResult mvcResult = mockMvc.perform(get(url))
+				.andReturn();
+		
+		String json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		System.out.println(json);
+		Assertions.assertEquals(200, status);
 	}
 
 	@Test
-	//@Disabled
+	@Disabled
+	@DisplayName("criar conta")
 	public void createAccount() throws Exception {
 		Customer customer1 = new Customer();
 		customer1.setId(1L);
@@ -80,12 +102,15 @@ public class AccountControllerTest {
 			   .content(json))
 		       .andReturn();
 		
-        System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(201, mvcResult.getResponse().getStatus());
+        json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+        System.out.println(json);
+		Assertions.assertEquals(201, status);
 	}
 	
 	@Test
 	@Disabled
+	@DisplayName("atualizar conta")
 	public void updateAccount() throws Exception {
 		Customer customer1 = new Customer();
 		customer1.setId(1L);
@@ -114,18 +139,23 @@ public class AccountControllerTest {
 				   .content(json))
 			       .andReturn();
 			
-		System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		System.out.println(json);
+		Assertions.assertEquals(200, status);
 	}
 	
 	@Test
 	@Disabled
+	@DisplayName("deletar aconta pelo id")
 	public void deleteAccountById() throws Exception {
 		String url = String.format("/account/%d", 1L);		
 		MvcResult mvcResult = mockMvc.perform(delete(url))
 			       .andReturn();
 			
-		System.out.println(mvcResult.getResponse().getContentAsString());
-		Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+		String json = mvcResult.getResponse().getContentAsString();
+		int status = mvcResult.getResponse().getStatus();
+		System.out.println(json);
+		Assertions.assertEquals(200, status);
 	}
 }

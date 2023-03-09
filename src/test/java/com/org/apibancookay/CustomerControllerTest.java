@@ -38,10 +38,7 @@ public class CustomerControllerTest {
 		
 		String json = mvcResult.getResponse().getContentAsString();
 		int status = mvcResult.getResponse().getStatus();
-		Customer[] customers = objectMapper.readValue(json, Customer[].class);
-		for (Customer customer : customers) {
-			System.out.println(customer.toString());
-		}
+	    System.out.println(json);
 		Assertions.assertEquals(200, status);
 	}
 	
@@ -55,8 +52,7 @@ public class CustomerControllerTest {
 		
 		String json = mvcResult.getResponse().getContentAsString();
 		int status = mvcResult.getResponse().getStatus();
-		Customer customer = objectMapper.readValue(json, Customer.class);
-		System.out.println(customer.toString());
+		System.out.println(json);
 		Assertions.assertEquals(200, status);
 	}
 
@@ -84,7 +80,7 @@ public class CustomerControllerTest {
 		customer2.setPassword("583245");		
 		customer2.setBirthDate(date2);
 		
-		String json = objectMapper.writeValueAsString(customer2);		
+		String json = objectMapper.writeValueAsString(customer1);		
 		String url = String.format("/customers");
         MvcResult mvcResult = mockMvc.perform(post(url)
 			   .contentType("application/json")
@@ -110,6 +106,11 @@ public class CustomerControllerTest {
 		customer1.setEmail("cliente1@gmail.com");
 		customer1.setPassword("481228");		
 		customer1.setBirthDate(date1);
+		
+		//customer1.setCpf("047.183.990-68");
+		//customer1.setRg("19.713.427");
+		//customer1.setEmail("cliente3@gmail.com");
+		//customer1.setPassword("472225");
 		
 		LocalDate date2 = LocalDate.parse("2005-01-17");
 		Customer customer2 = new Customer();
@@ -138,7 +139,7 @@ public class CustomerControllerTest {
 	@Disabled
 	@DisplayName("deletar cliente pelo id")
 	public void deleteCustomerById() throws Exception {
-		String url = String.format("/customers/%d", 2L);		
+		String url = String.format("/customers/%d", 1L);		
 		MvcResult mvcResult = mockMvc.perform(delete(url))
 			       .andReturn();
 		

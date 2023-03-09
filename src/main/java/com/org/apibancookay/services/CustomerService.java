@@ -32,7 +32,7 @@ public class CustomerService implements CustomerMethod {
 	@Transactional
 	public String createCustomer(Customer customer) {
 		if (customerRepository.existsById(customer.getId())) {
-			return "cliente já existe";
+			return "id já existe";
 		}
 		if (customerRepository.existsByCpf(customer.getCpf())) {
 			return "cpf já existe";
@@ -54,7 +54,7 @@ public class CustomerService implements CustomerMethod {
 	@Transactional
 	public String updateCustomer(Long id, Customer customer) {
 		if (!customerRepository.existsById(id)) {
-			return "cliente não encontrado";
+			return "id não encontrado";
 		} 
 		if (id != customer.getId()) {
 			return "id diferente";
