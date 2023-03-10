@@ -47,6 +47,9 @@ public class AccountService implements AccountMethod {
 		if (!customerRepository.existsById(account.getCustomer().getId())) {
 			return "id do cliente não encontrado";
 		}
+		if (accountRepository.existsById(account.getId())) {
+			return "id já existe";
+		}
 		if (accountRepository.existsByAgency(account.getAgency())) {
 			return "agência já existe";
 		}
@@ -77,6 +80,9 @@ public class AccountService implements AccountMethod {
 		}
 		if (id != account.getId()) {
 			return "id diferente";
+		}
+		if (accountRepository.existsById(account.getId())) {
+			return "id já existe";
 		}
 		if (accountRepository.existsByAgency(account.getAgency())) {
 			return "agência já existe";

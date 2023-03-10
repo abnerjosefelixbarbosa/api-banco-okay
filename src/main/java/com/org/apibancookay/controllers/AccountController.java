@@ -26,8 +26,6 @@ import com.org.apibancookay.dtos.AccountDTO;
 import com.org.apibancookay.interfaces.AccountMethod;
 import com.org.apibancookay.models.Account;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/accounts")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -62,11 +60,16 @@ public class AccountController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> createAccount(@RequestBody @Valid AccountDTO accountDTO) {
+	public ResponseEntity<?> createAccount(@RequestBody AccountDTO accountDTO) {
 		Account account = new Account();
+		
+		String result = accountDTO.validationOfcreateAccount();
+		if (!result.isEmpty()) {
+			return ResponseEntity.status(400).body(result);
+		}
+		
 		BeanUtils.copyProperties(accountDTO, account);
-
-		String result = accountMethod.createAccount(account);
+        result = accountMethod.createAccount(account);
 		if (!result.equals("conta criada")) {
 			return ResponseEntity.status(400).body(result);
 		}
@@ -75,13 +78,21 @@ public class AccountController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody @Valid AccountDTO accountDTO) {
+	public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody AccountDTO accountDTO) {
 		Account account = new Account();
+		
+		String result = accountDTO.validationOfupdateAccount();
+		if (!result.isEmpty()) {
+			return ResponseEntity.status(400).body(result);
+		}
+		
 		BeanUtils.copyProperties(accountDTO, account);
-
-		String result = accountMethod.updateAccount(id, account);
-		if (!result.equals("conta alterada")) {
+		result = accountMethod.updateAccount(id, account);
+		if (result.equals("id não encontrado")) {
 			return ResponseEntity.status(404).body(result);
+		}
+		if (!result.equals("conta alterada")) {
+			return ResponseEntity.status(400).body(result);
 		}
 
 		return ResponseEntity.status(200).body(result);

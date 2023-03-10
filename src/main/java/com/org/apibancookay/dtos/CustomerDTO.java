@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.com.caelum.stella.validation.CPFValidator;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +35,86 @@ public class CustomerDTO implements Serializable {
 	private String password;
 	@NotNull(message = "data nula")
 	private LocalDate birthDate;
+	
+	public String validationOfCreateCustomer() {
+		if (id == null) {
+			return "id nulo";
+		}
+		if (name.isEmpty()) {
+			return "nome vazio";
+		}
+		if (name.length() > 100) {
+			return "nome maior que 100 caracteres";
+		}
+		if (!validCpf()) {
+			return "cpf invalido";
+		}
+		if (rg.isEmpty() || rg.length() > 20) {
+			return "rg invalido";
+		}
+		if (!validEmail() || email.length() > 50) {
+			return "email invalido";
+		}
+		if (password.isEmpty() || password.length() != 6) {
+			return "senha invalida";
+		}
+		if (birthDate == null) {
+			return "data nula";
+		}
+		
+		return "";
+	}
+	
+	public String validationOfUpdateCustomer() {
+		if (id == null) {
+			return "id nulo";
+		}
+		if (name.isEmpty()) {
+			return "nome vazio";
+		}
+		if (name.length() > 100) {
+			return "nome maior que 100 caracteres";
+		}
+		if (!validCpf()) {
+			return "cpf invalido";
+		}
+		if (rg.isEmpty() || rg.length() > 20) {
+			return "rg invalido";
+		}
+		if (!validEmail() || email.length() > 50) {
+			return "email invalido";
+		}
+		if (password.isEmpty() || password.length() != 6) {
+			return "senha invalida";
+		}
+		if (birthDate == null) {
+			return "data nula";
+		}
+		
+		return "";
+	}
+	
+	public boolean validCpf() {
+		CPFValidator cpfValidator = new CPFValidator(); 
+		String cpf = this.cpf.replace(".", "").replace("-", "");
+		
+		try {
+			cpfValidator.assertValid(cpf);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean validEmail() {
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	public Long getId() {
 		return id;

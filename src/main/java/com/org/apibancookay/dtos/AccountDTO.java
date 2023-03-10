@@ -29,6 +29,52 @@ public class AccountDTO implements Serializable {
 	private String password;
 	@NotNull(message = "valor nulo")
 	private Customer customer;
+	
+	public String validationOfcreateAccount() {
+		if (id == null) {
+			return "id nulo";
+		}
+		if (agency.isEmpty() || agency.length() > 20) {
+			return "agência invalida";
+		}
+		if (account.isEmpty() || account.length() > 20) {
+			return "conta invalida";
+		}
+		if (balance == null || balance.doubleValue() == 0) {
+			return "saldo invalido";
+		}
+		if (password.isEmpty() || password.length() != 4) {
+			return "senha invalida";
+		}
+		if (customer == null) {
+			return "cliente nulo";
+		}		
+		
+		return "";
+	}
+	
+	public String validationOfupdateAccount() {
+		if (id == null) {
+			return "id nulo";
+		}
+		if (agency.isEmpty() || agency.length() > 20) {
+			return "agência invalida";
+		}
+		if (account.isEmpty() || account.length() > 20) {
+			return "conta invalida";
+		}
+		if (balance == null || balance.doubleValue() == 0) {
+			return "saldo invalido";
+		}
+		if (password.isEmpty() || password.length() != 4) {
+			return "senha invalida";
+		}
+		if (customer == null) {
+			return "cliente nulo";
+		}		
+		
+		return "";
+	}
 
 	public Long getId() {
 		return id;

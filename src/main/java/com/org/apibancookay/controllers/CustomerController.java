@@ -26,8 +26,6 @@ import com.org.apibancookay.dtos.CustomerDTO;
 import com.org.apibancookay.interfaces.CustomerMethod;
 import com.org.apibancookay.models.Customer;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/customers")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -52,11 +50,16 @@ public class CustomerController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> createCustomer(@RequestBody @Valid CustomerDTO customerDTO) {
+	public ResponseEntity<?> createCustomer(@RequestBody CustomerDTO customerDTO) {
 		Customer customer = new Customer();
+		
+		String result = customerDTO.validationOfCreateCustomer();
+		if (!result.isEmpty()) {
+			return ResponseEntity.status(400).body(result);
+		}
+		
 		BeanUtils.copyProperties(customerDTO, customer);
-
-		String result = customerMethod.createCustomer(customer);
+		result = customerMethod.createCustomer(customer);
 		if (!result.equals("cliente criado")) {
 			return ResponseEntity.status(400).body(result);
 		}
@@ -65,11 +68,16 @@ public class CustomerController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody @Valid CustomerDTO customerDTO) {
+	public ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
 		Customer customer = new Customer();
+		
+		String result = customerDTO.validationOfUpdateCustomer();
+		if (!result.isEmpty()) {
+			return ResponseEntity.status(400).body(result);
+		}
+		
 		BeanUtils.copyProperties(customerDTO, customer);
-
-		String result = customerMethod.updateCustomer(id, customer);
+		result = customerMethod.updateCustomer(id, customer);
 		if (result.equals("cliente não encontrado")) {
 			return ResponseEntity.status(404).body(result);
 		}

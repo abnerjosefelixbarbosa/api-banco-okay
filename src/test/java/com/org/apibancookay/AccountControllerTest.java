@@ -95,7 +95,7 @@ public class AccountControllerTest {
 		account2.setPassword("5832");
 		account2.setCustomer(customer2);
 		
-		String json = objectMapper.writeValueAsString(account1);		
+		String json = objectMapper.writeValueAsString(account2);		
 		String url = String.format("/accounts");
         MvcResult mvcResult = mockMvc.perform(post(url)
 			   .contentType("application/json")
@@ -109,7 +109,7 @@ public class AccountControllerTest {
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	@DisplayName("atualizar conta")
 	public void updateAccount() throws Exception {
 		Customer customer1 = new Customer();
@@ -132,7 +132,7 @@ public class AccountControllerTest {
 		account2.setPassword("5832");
 		account2.setCustomer(customer2);
 		
-		String json = objectMapper.writeValueAsString(customer1);		
+		String json = objectMapper.writeValueAsString(account1);		
 		String url = String.format("/accounts/%d", 1L);		
 		MvcResult mvcResult = mockMvc.perform(put(url)
 				   .contentType("application/json")
