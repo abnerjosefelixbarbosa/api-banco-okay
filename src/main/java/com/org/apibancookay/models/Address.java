@@ -41,7 +41,7 @@ public class Address implements Serializable {
 		this.id = id;
 	}
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
@@ -100,6 +100,7 @@ public class Address implements Serializable {
 	@Override
 	public String toString() {
 		return "Address [id=" + id + ", number=" + number + ", zipCode=" + zipCode + ", address=" + address
-				+ ", neighborhood=" + neighborhood + ", city=" + city + ", state=" + state + "]";
+				+ ", neighborhood=" + neighborhood + ", city=" + city + ", state=" + state + ", customer=" + customer.getId()
+				+ "]";
 	}
 }

@@ -3,9 +3,12 @@ package com.org.apibancookay.models;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +30,15 @@ public class Customer implements Serializable {
 	private String password;
 	@Column(nullable = false)
 	private LocalDate birthDate;
+	@JsonIgnore
+	@OneToOne(mappedBy = "customer")
+	private Account account;
+	@JsonIgnore
+	@OneToOne(mappedBy = "customer")
+	private Address address;
+	@JsonIgnore
+	@OneToOne(mappedBy = "customer")
+	private Telephone telephone;
 
 	public Long getId() {
 		return id;
@@ -82,6 +94,30 @@ public class Customer implements Serializable {
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Telephone getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(Telephone telephone) {
+		this.telephone = telephone;
 	}
 
 	@Override

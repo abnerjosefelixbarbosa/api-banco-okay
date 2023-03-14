@@ -49,6 +49,6 @@ public class Telephone implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Telephone [id=" + id + ", telephone=" + telephone + "]";
+		return "Telephone [id=" + id + ", telephone=" + telephone + ", customer=" + customer.getId() + "]";
 	}
 }

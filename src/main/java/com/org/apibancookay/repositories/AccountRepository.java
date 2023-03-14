@@ -1,14 +1,15 @@
 package com.org.apibancookay.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.org.apibancookay.models.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-	boolean existsByAgency(String agency);
-	boolean existsByAccount(String account);
-	boolean existsByPassword(String password);
-	boolean existsByCustomerId(Long id);
+	@Query(value = "select * from Account account where account.customer_id = ?1", nativeQuery = true)
+	Optional<Account> findByAccountId(Long accountId);
 }

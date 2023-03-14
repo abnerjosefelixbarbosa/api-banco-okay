@@ -3,92 +3,26 @@ package com.org.apibancookay.dtos;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CPF;
-
 import br.com.caelum.stella.validation.CPFValidator;
 import jakarta.mail.internet.InternetAddress;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 public class CustomerDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@NotNull(message = "id nulo")
 	private Long id;
-	@Length(max = 100, message = "nome até 100 caracteres")
-	@NotEmpty(message = "nome vazio")
 	private String name;
-	@Length(max = 20, message = "cpf até 20 caracteres")
-	@CPF(message = "cpf invalido")
 	private String cpf;
-	@Length(max = 20, message = "rg até 20 caracteres")
-	@NotEmpty(message = "rg vazio")
 	private String rg;
-	@Length(max = 50, message = "email até 50 caracteres")
-	@Email(message = "email invalido")
 	private String email;
-	@Size(min = 6, max = 6, message = "senha até 6 caracteres")
-	@NotEmpty(message = "senha vazia")
 	private String password;
-	@NotNull(message = "data nula")
 	private LocalDate birthDate;
 	
-	public String validationOfCreateCustomer() {
-		if (id == null) {
-			return "id nulo";
-		}
-		if (name.isEmpty()) {
-			return "nome vazio";
-		}
-		if (name.length() > 100) {
-			return "nome maior que 100 caracteres";
-		}
+	public String validLoginByCpfAndPassword() {
 		if (!validCpf()) {
 			return "cpf invalido";
 		}
-		if (rg.isEmpty() || rg.length() > 20) {
-			return "rg invalido";
-		}
-		if (!validEmail() || email.length() > 50) {
-			return "email invalido";
-		}
-		if (password.isEmpty() || password.length() != 6) {
-			return "senha invalida";
-		}
-		if (birthDate == null) {
-			return "data nula";
-		}
-		
-		return "";
-	}
-	
-	public String validationOfUpdateCustomer() {
-		if (id == null) {
-			return "id nulo";
-		}
-		if (name.isEmpty()) {
-			return "nome vazio";
-		}
-		if (name.length() > 100) {
-			return "nome maior que 100 caracteres";
-		}
-		if (!validCpf()) {
-			return "cpf invalido";
-		}
-		if (rg.isEmpty() || rg.length() > 20) {
-			return "rg invalido";
-		}
-		if (!validEmail() || email.length() > 50) {
-			return "email invalido";
-		}
-		if (password.isEmpty() || password.length() != 6) {
-			return "senha invalida";
-		}
-		if (birthDate == null) {
-			return "data nula";
+		if (password.isEmpty()) {
+			return "senha obrigatória";
 		}
 		
 		return "";
