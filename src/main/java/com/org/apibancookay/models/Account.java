@@ -77,6 +77,14 @@ public class Account implements Serializable {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+	
+	public void deposit(BigDecimal value) {
+		this.balance = this.balance.add(value);
+	}
+	
+    public void withdraw(BigDecimal value) {
+    	this.balance = this.balance.subtract(value);
+	}
 
 	@Override
 	public String toString() {

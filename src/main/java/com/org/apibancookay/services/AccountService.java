@@ -15,4 +15,8 @@ public class AccountService implements AccountMethod {
 	public Account findByAccountId(Long accountId) {
 		return accountRepository.findByAccountId(accountId).orElse(null);
 	}
+	
+	public Account findByAgencyAndAccount(String agency, String account) {
+		return accountRepository.findByAgencyAndAccount(agency, account).orElse(null);
+	}
 }

@@ -14,6 +14,17 @@ public class AccountDTO implements Serializable {
 	private BigDecimal balance;
 	private String password;
 	private Customer customer;
+	
+	public String validFindByAgencyAndAccount() {
+		if (agency.isEmpty()) {
+			return "agência obrigatória";
+		}
+		if (account.isEmpty()) {
+			return "conta obrigatória";
+		}
+		
+		return "";
+	}
 
 	public Long getId() {
 		return id;
@@ -66,6 +77,6 @@ public class AccountDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "AccountDTO [id=" + id + ", agency=" + agency + ", account=" + account + ", balance=" + balance
-				+ ", password=" + password + "]";
+				+ ", password=" + password + ", customer=" + customer.getId() + "]";
 	}
 }

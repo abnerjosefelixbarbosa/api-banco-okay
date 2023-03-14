@@ -11,5 +11,6 @@ import com.org.apibancookay.models.Account;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 	@Query(value = "select * from Account account where account.customer_id = ?1", nativeQuery = true)
-	Optional<Account> findByAccountId(Long accountId);
+	Optional<Account> findByAccountId(Long accountId);	
+	Optional<Account> findByAgencyAndAccount(String agency, String account);
 }
