@@ -2,6 +2,7 @@ package com.org.apibancookay.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,6 +30,14 @@ public class Account implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false, unique = true)
 	private Customer customer;
+	
+	public void deposit(BigDecimal value) {
+		this.balance = this.balance.add(value);
+	}
+	
+    public void withdraw(BigDecimal value) {
+    	this.balance = this.balance.subtract(value);
+	}
 
 	public Long getId() {
 		return id;
@@ -77,18 +86,27 @@ public class Account implements Serializable {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
-	public void deposit(BigDecimal value) {
-		this.balance = this.balance.add(value);
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
-	
-    public void withdraw(BigDecimal value) {
-    	this.balance = this.balance.subtract(value);
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", agency=" + agency + ", account=" + account + ", balance=" + balance
-				+ ", password=" + password + ", customer=" + customer.getId() + "]";
+				+ ", password=" + password + "]";
 	}
 }

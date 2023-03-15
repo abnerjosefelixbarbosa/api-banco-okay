@@ -2,6 +2,7 @@ package com.org.apibancookay.dtos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import com.org.apibancookay.models.Customer;
 
@@ -14,6 +15,14 @@ public class AccountDTO implements Serializable {
 	private BigDecimal balance;
 	private String password;
 	private Customer customer;
+	
+	public String validTransferBalance() {
+		if (balance.doubleValue() == 0) {
+			return "saldo nulo";
+		}
+		
+		return "";
+	}
 	
 	public String validFindByAgencyAndAccount() {
 		if (agency.isEmpty()) {
@@ -75,8 +84,25 @@ public class AccountDTO implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AccountDTO other = (AccountDTO) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
 	public String toString() {
 		return "AccountDTO [id=" + id + ", agency=" + agency + ", account=" + account + ", balance=" + balance
-				+ ", password=" + password + ", customer=" + customer.getId() + "]";
+				+ ", password=" + password + "]";
 	}
 }

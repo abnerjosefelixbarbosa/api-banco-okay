@@ -19,4 +19,12 @@ public class AccountService implements AccountMethod {
 	public Account findByAgencyAndAccount(String agency, String account) {
 		return accountRepository.findByAgencyAndAccount(agency, account).orElse(null);
 	}
+	
+	public Account findById(Long id) {
+		return accountRepository.findById(id).orElse(null);
+	}
+	
+	public Account save(Account account) {
+		return accountRepository.save(account);
+	}
 }

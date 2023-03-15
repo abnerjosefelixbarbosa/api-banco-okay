@@ -1,6 +1,7 @@
 package com.org.apibancookay.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -48,7 +49,24 @@ public class Telephone implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Telephone other = (Telephone) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
 	public String toString() {
-		return "Telephone [id=" + id + ", telephone=" + telephone + ", customer=" + customer.getId() + "]";
+		return "Telephone [id=" + id + ", telephone=" + telephone + "]";
 	}
 }

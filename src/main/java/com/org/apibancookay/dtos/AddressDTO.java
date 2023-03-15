@@ -1,6 +1,7 @@
 package com.org.apibancookay.dtos;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.org.apibancookay.models.Customer;
 
@@ -81,9 +82,25 @@ public class AddressDTO implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AddressDTO other = (AddressDTO) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
 	public String toString() {
 		return "AddressDTO [id=" + id + ", number=" + number + ", zipCode=" + zipCode + ", address=" + address
-				+ ", neighborhood=" + neighborhood + ", city=" + city + ", state=" + state + ", customer=" + customer.getId()
-				+ "]";
+				+ ", neighborhood=" + neighborhood + ", city=" + city + ", state=" + state + "]";
 	}
 }
