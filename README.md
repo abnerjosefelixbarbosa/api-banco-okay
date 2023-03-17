@@ -7,7 +7,7 @@ API Banco Okay
 
 # sobre o projeto
 
-API para gerenciamento bancario da instituição Okay
+API para gerenciamento bancário da instituição Okay
 
 # Features
 
