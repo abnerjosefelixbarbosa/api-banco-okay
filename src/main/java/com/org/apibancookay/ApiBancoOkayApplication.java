@@ -15,4 +15,7 @@ public class ApiBancoOkayApplication implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		System.out.println("teste");
 	}
+	
+	//http://localhost:8080/v3/api-docs
+	//http://localhost:8080/swagger-ui/index.html
 }

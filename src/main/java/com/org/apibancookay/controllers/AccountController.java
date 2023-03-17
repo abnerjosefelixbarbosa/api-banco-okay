@@ -27,6 +27,11 @@ public class AccountController {
 	@Autowired
 	private CustomerMethod customerMethod;
 	
+	@GetMapping
+	public ResponseEntity<String> test() {
+		return ResponseEntity.status(200).body("teste");
+	}
+	
 	@GetMapping("/login/{cpf}/{password}")
 	public ResponseEntity<?> loginByCpfAndPassword(@PathVariable String cpf, @PathVariable String password) {
 		try {
