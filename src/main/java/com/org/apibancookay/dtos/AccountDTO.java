@@ -2,10 +2,18 @@ package com.org.apibancookay.dtos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import com.org.apibancookay.models.Customer;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString(exclude = {"customer"})
+@EqualsAndHashCode(exclude = {"agency", "account", "balance", "password", "customer"})
 public class AccountDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -33,76 +41,5 @@ public class AccountDTO implements Serializable {
 		}
 		
 		return "";
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getAgency() {
-		return agency;
-	}
-
-	public void setAgency(String agency) {
-		this.agency = agency;
-	}
-
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
-	public BigDecimal getBalance() {
-		return balance;
-	}
-
-	public void setBalance(BigDecimal balance) {
-		this.balance = balance;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AccountDTO other = (AccountDTO) obj;
-		return Objects.equals(id, other.id);
-	}
-
-	@Override
-	public String toString() {
-		return "AccountDTO [id=" + id + ", agency=" + agency + ", account=" + account + ", balance=" + balance
-				+ ", password=" + password + "]";
 	}
 }

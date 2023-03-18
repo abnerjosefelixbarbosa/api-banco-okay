@@ -1,7 +1,6 @@
 package com.org.apibancookay.models;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,7 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString(exclude = {"customer"})
+@EqualsAndHashCode(exclude = {"telephone", "customer"})
 @Entity
 @Table(name = "telephone")
 public class Telephone implements Serializable {
@@ -23,50 +30,4 @@ public class Telephone implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false, unique = true)
 	private Customer customer;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Telephone other = (Telephone) obj;
-		return Objects.equals(id, other.id);
-	}
-
-	@Override
-	public String toString() {
-		return "Telephone [id=" + id + ", telephone=" + telephone + "]";
-	}
 }

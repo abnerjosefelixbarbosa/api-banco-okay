@@ -18,6 +18,10 @@ import com.org.apibancookay.interfaces.CustomerMethod;
 import com.org.apibancookay.models.Account;
 import com.org.apibancookay.models.Customer;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/accounts")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -27,11 +31,22 @@ public class AccountController {
 	@Autowired
 	private CustomerMethod customerMethod;
 	
+	@Operation(description = "teste")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "retorna teste"),
+	})
 	@GetMapping
 	public ResponseEntity<String> test() {
 		return ResponseEntity.status(200).body("teste");
 	}
 	
+	@Operation(description = "loga conta pelo cpf e senha")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "retorna conta"),
+			@ApiResponse(responseCode = "400", description = "retorna messagem dados não validos"),
+			@ApiResponse(responseCode = "404", description = "retorna conta não encontrada"),
+			@ApiResponse(responseCode = "500", description = "retorna erro em login por cpf e senha"),
+	})
 	@GetMapping("/login/{cpf}/{password}")
 	public ResponseEntity<?> loginByCpfAndPassword(@PathVariable String cpf, @PathVariable String password) {
 		try {
@@ -58,6 +73,13 @@ public class AccountController {
 		}
 	}
 	
+	@Operation(description = "encontra conta pela agência e conta")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "retorna conta"),
+			@ApiResponse(responseCode = "400", description = "retorna messagem dados não validos"),
+			@ApiResponse(responseCode = "404", description = "retorna conta não encontrada"),
+			@ApiResponse(responseCode = "500", description = "retorna erro em encotrar por cpf e senha"),
+	})
 	@GetMapping("/{agency}/{account}")
 	public ResponseEntity<?> findByAgencyAndAccount(@PathVariable String agency, @PathVariable String account) {
 		try {
@@ -82,6 +104,13 @@ public class AccountController {
 		}
 	}
 	
+	@Operation(description = "transfere saldo pelos dois ids da conta")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "retorna saldo transferido"),
+			@ApiResponse(responseCode = "400", description = "retorna messagem dados não validos"),
+			@ApiResponse(responseCode = "404", description = "retorna conta1 ou conta2 não encontrada"),
+			@ApiResponse(responseCode = "500", description = "retorna erro em transferir saldo"),
+	})
 	@PutMapping("/transfer/{id1}/{id2}")
 	public ResponseEntity<?> transferBalance(@PathVariable Long id1, @PathVariable Long id2, @RequestBody AccountDTO accountDTO) {
 		try {
