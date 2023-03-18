@@ -26,6 +26,7 @@ API para gerenciamento bancário da instituição Okay
 - Spring Dev Tools
 - Spring Security 
 - Swagger
+- Lombok
 
 # Execução do Projeto
 Pré-requisito: Java 17
