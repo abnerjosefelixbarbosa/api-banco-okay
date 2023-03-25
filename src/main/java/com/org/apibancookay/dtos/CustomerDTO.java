@@ -32,6 +32,9 @@ public class CustomerDTO implements Serializable {
 		if (password.isEmpty()) {
 			return "senha obrigatória";
 		}
+		if (password.length() != 6) {
+			return "tamanho da senha diferente de 6";
+		}
 		
 		return "";
 	}
