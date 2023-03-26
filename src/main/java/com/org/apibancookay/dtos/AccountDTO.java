@@ -33,11 +33,11 @@ public class AccountDTO implements Serializable {
 	}
 	
 	public String validFindByAgencyAndAccount() {
-		if (agency.isEmpty()) {
-			return "agência obrigatória";
+		if (agency.isEmpty() || agency.length() != 6) {
+			return "agência invalida";
 		}
-		if (account.isEmpty()) {
-			return "conta obrigatória";
+		if (account.isEmpty() || account.length() != 7) {
+			return "conta invalida";
 		}
 		
 		return "";

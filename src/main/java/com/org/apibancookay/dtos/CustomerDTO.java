@@ -29,11 +29,8 @@ public class CustomerDTO implements Serializable {
 		if (!validCpf()) {
 			return "cpf invalido";
 		}
-		if (password.isEmpty()) {
-			return "senha obrigatória";
-		}
-		if (password.length() != 6) {
-			return "tamanho da senha diferente de 6";
+		if (password.isEmpty() || password.length() != 6) {
+			return "senha invalida";
 		}
 		
 		return "";

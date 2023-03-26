@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,30 +36,28 @@ public class AccountController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "retorna teste"),
 	})
-	@GetMapping
-	public ResponseEntity<String> test() {
+	@GetMapping("/teste")
+	public ResponseEntity<?> test() {
 		return ResponseEntity.status(200).body("teste");
 	}
 	
 	@Operation(description = "loga conta pelo cpf e senha")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "retorna conta"),
-			@ApiResponse(responseCode = "400", description = "retorna messagem dados não validos"),
+			@ApiResponse(responseCode = "400", description = "retorna messagem dados invalidos"),
 			@ApiResponse(responseCode = "404", description = "retorna conta não encontrada"),
 			@ApiResponse(responseCode = "500", description = "retorna erro em login por cpf e senha"),
 	})
-	@GetMapping("/login/{cpf}/{password}")
-	public ResponseEntity<?> loginByCpfAndPassword(@PathVariable String cpf, @PathVariable String password) {
+	@PostMapping("/login_cpf_password")
+	public ResponseEntity<?> loginByCpfAndPassword(@RequestBody CustomerDTO customerDTO) {
 		try {
-			CustomerDTO customerDTO = new CustomerDTO();
-			customerDTO.setCpf(cpf);
-			customerDTO.setPassword(password);
-			
 			String validLoginByCpfAndPassword = customerDTO.validLoginByCpfAndPassword();
 			if (!validLoginByCpfAndPassword.isEmpty()) {
 				return ResponseEntity.status(400).body(validLoginByCpfAndPassword);
 			}
 			
+			String cpf = customerDTO.getCpf();
+			String password = customerDTO.getPassword();
 			Customer findByCpfAndPassword = customerMethod.findByCpfAndPassword(cpf, password);
 			if (findByCpfAndPassword == null) {
 				return ResponseEntity.status(404).body("conta não encontrada");
@@ -76,22 +75,20 @@ public class AccountController {
 	@Operation(description = "encontra conta pela agência e conta")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "retorna conta"),
-			@ApiResponse(responseCode = "400", description = "retorna messagem dados não validos"),
+			@ApiResponse(responseCode = "400", description = "retorna messagem dados invalidos"),
 			@ApiResponse(responseCode = "404", description = "retorna conta não encontrada"),
 			@ApiResponse(responseCode = "500", description = "retorna erro em encotrar por cpf e senha"),
 	})
-	@GetMapping("/{agency}/{account}")
-	public ResponseEntity<?> findByAgencyAndAccount(@PathVariable String agency, @PathVariable String account) {
+	@PostMapping("/find_agencia_conta")
+	public ResponseEntity<?> findByAgencyAndAccount(@RequestBody AccountDTO accountDTO) {
 		try {
-			AccountDTO accountDTO = new AccountDTO();
-			accountDTO.setAgency(agency);
-			accountDTO.setAccount(account);
-			
 			String validFindByAgencyAndAccount = accountDTO.validFindByAgencyAndAccount();
 			if (!validFindByAgencyAndAccount.isEmpty()) {
 				return ResponseEntity.status(400).body(validFindByAgencyAndAccount);
 			}
 			
+			String agency = accountDTO.getAgency();
+			String account = accountDTO.getAccount();
 			Account findByAgencyAndAccount = accountMethod.findByAgencyAndAccount(agency, account);
 			if (findByAgencyAndAccount == null) {
 				return ResponseEntity.status(404).body("conta não encontrada");
@@ -107,11 +104,11 @@ public class AccountController {
 	@Operation(description = "transfere saldo pelos dois ids da conta")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "retorna saldo transferido"),
-			@ApiResponse(responseCode = "400", description = "retorna messagem dados não validos"),
+			@ApiResponse(responseCode = "400", description = "retorna messagem dados invalidos"),
 			@ApiResponse(responseCode = "404", description = "retorna conta1 ou conta2 não encontrada"),
 			@ApiResponse(responseCode = "500", description = "retorna erro em transferir saldo"),
 	})
-	@PutMapping("/transfer/{id1}/{id2}")
+	@PutMapping("/transfer_balance/{id1}/{id2}")
 	public ResponseEntity<?> transferBalance(@PathVariable Long id1, @PathVariable Long id2, @RequestBody AccountDTO accountDTO) {
 		try {
 			if (id1 == id2) {
