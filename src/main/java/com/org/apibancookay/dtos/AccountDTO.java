@@ -23,23 +23,4 @@ public class AccountDTO implements Serializable {
 	private BigDecimal balance;
 	private String password;
 	private Customer customer;
-	
-	public String validTransferBalance() {
-		if (balance.doubleValue() == 0) {
-			return "saldo nulo";
-		}
-		
-		return "";
-	}
-	
-	public String validFindByAgencyAndAccount() {
-		if (agency.isEmpty() || agency.length() != 6) {
-			return "agência invalida";
-		}
-		if (account.isEmpty() || account.length() != 7) {
-			return "conta invalida";
-		}
-		
-		return "";
-	}
 }

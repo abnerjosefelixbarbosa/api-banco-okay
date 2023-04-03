@@ -12,7 +12,7 @@ public class CustomerService implements CustomerMethod {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	public Customer findByCpfAndPassword(String cpf, String password) {
-		return customerRepository.findByCpfAndPassword(cpf, password).orElse(null);
+	public Customer findByCpfAndPassword(Customer customer) {
+		return customerRepository.findByCpfAndPassword(customer.getCpf(), customer.getPassword()).orElse(null);
 	}
 }

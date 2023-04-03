@@ -16,6 +16,7 @@ import com.org.apibancookay.dtos.AccountDTO;
 import com.org.apibancookay.dtos.CustomerDTO;
 import com.org.apibancookay.interfaces.AccountMethod;
 import com.org.apibancookay.models.Account;
+import com.org.apibancookay.models.Customer;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,101 +30,86 @@ public class AccountController {
 	private AccountMethod accountMethod;
 
 	@Operation(description = "teste")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna teste"), })
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna mensagem teste"), })
 	@GetMapping("/teste")
 	public ResponseEntity<?> test() {
 		return ResponseEntity.status(200).body("teste");
 	}
 
-	@Operation(description = "loga conta pelo cpf e senha")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna conta"),
-			@ApiResponse(responseCode = "400", description = "retorna messagem dados invalidos"),
-			@ApiResponse(responseCode = "404", description = "retorna conta não encontrada"),
-			@ApiResponse(responseCode = "500", description = "retorna erro em login por cpf e senha"), })
-	@PostMapping("/login_cpf_password")
-	public ResponseEntity<?> loginByCpfAndPassword(@RequestBody CustomerDTO customerDTO) {
+	@Operation(description = "logar conta pelo cpf e senha")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna objeto conta"),
+			@ApiResponse(responseCode = "400", description = "retorna mensagem cpf invalido"),
+			@ApiResponse(responseCode = "400", description = "retorna mensagem senha invalida"),
+			@ApiResponse(responseCode = "404", description = "retorna mensagem conta não encontrada"),
+			@ApiResponse(responseCode = "500", description = "retorna mensagem erro no servidor"), })
+	@PostMapping("/login-account-by-cpf-and-password")
+	public ResponseEntity<?> loginAccountByCpfAndPassword(@RequestBody CustomerDTO customerDTO) {
 		try {
-			String validLoginByCpfAndPassword = customerDTO.validLoginByCpfAndPassword();
-			if (!validLoginByCpfAndPassword.isEmpty()) {
-				return ResponseEntity.status(400).body(validLoginByCpfAndPassword);
-			}
-
-			String cpf = customerDTO.getCpf();
-			String password = customerDTO.getPassword();
-			Account findByCpfAndPassword = accountMethod.findByCpfAndPassword(cpf, password);
-			if (findByCpfAndPassword == null) {
-				return ResponseEntity.status(404).body("conta não encontrada");
-			}
-
+			Customer customer = new Customer();
+			BeanUtils.copyProperties(customerDTO, customer);
+			Account accountLogged = accountMethod.loginAccountByCpfAndPassword(customer);
 			AccountDTO accountDTO = new AccountDTO();
-			BeanUtils.copyProperties(findByCpfAndPassword, accountDTO);
+			BeanUtils.copyProperties(accountLogged, accountDTO);
 			return ResponseEntity.status(200).body(accountDTO);
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("erro em login por cpf e senha");
+			if (!e.getMessage().equals("conta verificada"))
+				return ResponseEntity.status(400).body(e.getMessage());
+			if (e.getMessage().equals("conta não encontrada"))
+				return ResponseEntity.status(404).body(e.getMessage());
+
+			return ResponseEntity.status(500).body("erro no servidor");
 		}
 	}
 
-	@Operation(description = "encontra conta pela agência e conta")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna conta"),
-			@ApiResponse(responseCode = "400", description = "retorna messagem dados invalidos"),
-			@ApiResponse(responseCode = "404", description = "retorna conta não encontrada"),
-			@ApiResponse(responseCode = "500", description = "retorna erro em encotrar por cpf e senha"), })
-	@PostMapping("/find_agencia_conta")
-	public ResponseEntity<?> findByAgencyAndAccount(@RequestBody AccountDTO accountDTO) {
+	@Operation(description = "encontrar conta pela agência e conta")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna objeto conta"),
+			@ApiResponse(responseCode = "400", description = "retorna mensagem agência invalida"),
+			@ApiResponse(responseCode = "400", description = "retorna mensagem conta invalida"),
+			@ApiResponse(responseCode = "404", description = "retorna mensagem conta não encontrada"),
+			@ApiResponse(responseCode = "500", description = "retorna mensagem erro no servidor"), })
+	@PostMapping("/find-account-by-agency-and-account")
+	public ResponseEntity<?> findAccountByAgencyAndAccount(@RequestBody AccountDTO accountDTO) {
 		try {
-			String validFindByAgencyAndAccount = accountDTO.validFindByAgencyAndAccount();
-			if (!validFindByAgencyAndAccount.isEmpty()) {
-				return ResponseEntity.status(400).body(validFindByAgencyAndAccount);
-			}
-
-			String agency = accountDTO.getAgency();
-			String account = accountDTO.getAccount();
-			Account findByAgencyAndAccount = accountMethod.findByAgencyAndAccount(agency, account);
-			if (findByAgencyAndAccount == null) {
-				return ResponseEntity.status(404).body("conta não encontrada");
-			}
-
-			BeanUtils.copyProperties(findByAgencyAndAccount, accountDTO);
+			Account account = new Account();
+			BeanUtils.copyProperties(accountDTO, account);
+			Account accountFound = accountMethod.findAccountByAgencyAndAccount(account);
+			BeanUtils.copyProperties(accountFound, accountDTO);
 			return ResponseEntity.status(200).body(accountDTO);
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("erro em encontrar por agência e conta");
+			if (!e.getMessage().equals("conta verificada"))
+				return ResponseEntity.status(400).body(e.getMessage());
+			if (e.getMessage().equals("conta não encontrada"))
+				return ResponseEntity.status(404).body(e.getMessage());
+
+			return ResponseEntity.status(500).body("erro no servidor");
 		}
 	}
 
 	@Operation(description = "transfere saldo pelos dois ids da conta")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna saldo transferido"),
-			@ApiResponse(responseCode = "400", description = "retorna messagem dados invalidos"),
-			@ApiResponse(responseCode = "404", description = "retorna conta1 ou conta2 não encontrada"),
-			@ApiResponse(responseCode = "500", description = "retorna erro em transferir saldo"), })
-	@PutMapping("/transfer_balance/{id1}/{id2}")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "retorna mensagem saldo transferido"),
+			@ApiResponse(responseCode = "400", description = "retorna mensagem ids iguais"),
+			@ApiResponse(responseCode = "400", description = "retorna mensagem saldo nulo"),
+			@ApiResponse(responseCode = "404", description = "retorna mensagem conta1 não encontrada"),
+			@ApiResponse(responseCode = "404", description = "retorna mensagem conta2 não encontrada"),
+			@ApiResponse(responseCode = "500", description = "retorna menssagem erro no servidor"), })
+	@PutMapping("/transfer-balance/{id1}/{id2}")
 	public ResponseEntity<?> transferBalance(@PathVariable Long id1, @PathVariable Long id2,
 			@RequestBody AccountDTO accountDTO) {
 		try {
-			if (id1 == id2) {
-				return ResponseEntity.status(400).body("ids identicos");
-			}
-
-			String validTransferBalance = accountDTO.validTransferBalance();
-			if (!validTransferBalance.isEmpty()) {
-				return ResponseEntity.status(400).body(validTransferBalance);
-			}
-
-			Account account1 = accountMethod.findById(id1);
-			if (account1 == null) {
-				return ResponseEntity.status(404).body("conta1 não encontrada");
-			}
-			Account account2 = accountMethod.findById(id2);
-			if (account2 == null) {
-				return ResponseEntity.status(404).body("conta2 não encontrada");
-			}
-
-			account1.withdraw(accountDTO.getBalance());
-			account2.deposit(accountDTO.getBalance());
-			accountMethod.save(account1);
-			accountMethod.save(account2);
-			return ResponseEntity.status(200).body("saldo transferido");
+			Account account = new Account();
+			BeanUtils.copyProperties(accountDTO, account);
+			return ResponseEntity.status(200).body(accountMethod.transferBalance(id1, id2, account));
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("erro em transferir saldo");
+			if (e.getMessage().equals("ids iguais"))
+				return ResponseEntity.status(400).body(e.getMessage());
+			if (e.getMessage().equals("conta1 não encontrada"))
+				return ResponseEntity.status(404).body(e.getMessage());
+			if (e.getMessage().equals("conta2 não encontrada"))
+				return ResponseEntity.status(404).body(e.getMessage());
+			if (!e.getMessage().equals("saldo verificado"))
+				return ResponseEntity.status(400).body(e.getMessage());
+			
+			return ResponseEntity.status(500).body("erro no servidor");
 		}
 	}
 }
