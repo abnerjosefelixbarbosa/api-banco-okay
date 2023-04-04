@@ -78,10 +78,6 @@ public class AccountService implements AccountMethod {
 		if (id1 == id2)
 			throw new Exception("ids iguais");
 
-		String balanceChecked = checkTransferBalance(account);
-		if (!balanceChecked.equals("saldo verificado"))
-			throw new Exception(balanceChecked);
-
 		Account accountFound1 = accountRepository.findById(id1).orElse(null);
 		if (accountFound1 == null)
 			throw new Exception("conta1 não encontrada");
@@ -89,6 +85,10 @@ public class AccountService implements AccountMethod {
 		Account accountFound2 = accountRepository.findById(id2).orElse(null);
 		if (accountFound2 == null)
 			throw new Exception("conta2 não encontrada");
+		
+		String balanceChecked = checkTransferBalance(account);
+		if (!balanceChecked.equals("saldo verificado"))
+			throw new Exception(balanceChecked);
 
 		accountFound1.withdraw(account.getBalance());
 		accountFound2.deposit(account.getBalance());
