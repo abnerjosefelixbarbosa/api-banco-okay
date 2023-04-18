@@ -17,8 +17,9 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = {"account", "address", "telephone"})
-@EqualsAndHashCode(exclude = {"name", "cpf", "rg", "email", "password", "birthDate", "account", "address", "telephone"})
+@ToString(exclude = { "account", "address", "telephone" })
+@EqualsAndHashCode(exclude = { "name", "cpf", "rg", "email", "password", "birthDate", "account", "address",
+		"telephone" })
 @Entity
 @Table(name = "customer")
 public class Customer implements Serializable {

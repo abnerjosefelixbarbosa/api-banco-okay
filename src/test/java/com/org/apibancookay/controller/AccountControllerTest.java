@@ -33,8 +33,10 @@ public class AccountControllerTest {
 		customer.setCpf("949.612.154-30");
 		customer.setPassword("481228");
 
-		mockMvc.perform(post("/accounts/login-account-by-cpf-and-password").contentType("application/json")
-				.content(objectMapper.writeValueAsString(customer))).andDo(print()).andExpect(status().is(200));
+		mockMvc.perform(post("/accounts/login-by-cpf-and-password")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(customer)))
+		.andDo(print()).andExpect(status().is(200));
 	}
 
 	@Test

@@ -18,26 +18,30 @@ public class AccountService implements AccountMethod {
 	@Autowired
 	private CustomerMethod customerMethod;
 
-	public Account loginAccountByCpfAndPassword(Customer customer) throws Exception {
-		String checkedAccount = checkLoginAccountByCpfAndPassword(customer);
-		if (!checkedAccount.equals("conta verificada"))
+	public Account loginByCpfAndPassword(Customer customer) throws Exception {
+		String checkedAccount = checkLoginByCpfAndPassword(customer);
+		if (checkedAccount != null) {
 			throw new Exception(checkedAccount);
+		}
 
 		Customer customerFound = customerMethod.findByCpfAndPassword(customer);
 		Account accountFound = accountRepository.findByCustomer(customerFound).orElse(null);
-		if (accountFound == null)
-			throw new Exception("conta não encontrada");
-
+		if (accountFound == null) {
+			return null;
+		}
+			
 		return accountFound;
 	}
 
-	private String checkLoginAccountByCpfAndPassword(Customer customer) {
-		if (!checkCpf(customer.getCpf()))
+	private String checkLoginByCpfAndPassword(Customer customer) {
+		if (!checkCpf(customer.getCpf())) {
 			return "cpf invalido";
-		if (customer.getPassword().isEmpty() || customer.getPassword().length() != 6)
+		}
+		if (customer.getPassword().isEmpty() || customer.getPassword().length() != 6) {
 			return "senha invalida";
+		}
 
-		return "conta verificada";
+		return "conta valida";
 	}
 
 	private boolean checkCpf(String cpf) {
@@ -52,8 +56,8 @@ public class AccountService implements AccountMethod {
 		}
 	}
 
-	public Account findAccountByAgencyAndAccount(Account account) throws Exception {
-		String checkedAccount = checkFindAccountByAgencyAndAccount(account);
+	public Account findByAgencyAndAccount(Account account) throws Exception {
+		String checkedAccount = checkFindByAgencyAndAccount(account);
 		if (!checkedAccount.equals("conta verificada"))
 			throw new Exception(checkedAccount);
 
@@ -65,7 +69,7 @@ public class AccountService implements AccountMethod {
 		return accountFound;
 	}
 
-	private String checkFindAccountByAgencyAndAccount(Account account) {
+	private String checkFindByAgencyAndAccount(Account account) {
 		if (account.getAgency().isEmpty() || account.getAgency().length() != 6)
 			return "agência invalida";
 		if (account.getAccount().isEmpty() || account.getAccount().length() != 7)

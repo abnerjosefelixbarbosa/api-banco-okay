@@ -17,8 +17,8 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = {"customer"})
-@EqualsAndHashCode(exclude = {"agency", "account", "balance", "password", "customer"})
+@ToString(exclude = { "customer" })
+@EqualsAndHashCode(exclude = { "agency", "account", "balance", "password", "customer" })
 @Entity
 @Table(name = "account")
 public class Account implements Serializable {
@@ -37,12 +37,12 @@ public class Account implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false, unique = true)
 	private Customer customer;
-	
+
 	public void deposit(BigDecimal value) {
 		this.balance = this.balance.add(value);
 	}
-	
-    public void withdraw(BigDecimal value) {
-    	this.balance = this.balance.subtract(value);
+
+	public void withdraw(BigDecimal value) {
+		this.balance = this.balance.subtract(value);
 	}
 }
