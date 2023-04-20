@@ -20,7 +20,7 @@ public class AccountService implements AccountMethod {
 
 	public Account loginByCpfAndPassword(Customer customer) throws Exception {
 		String checkedAccount = checkLoginByCpfAndPassword(customer);
-		if (checkedAccount != null) {
+		if (!checkedAccount.equals("conta valida")) {
 			throw new Exception(checkedAccount);
 		}
 
@@ -29,7 +29,7 @@ public class AccountService implements AccountMethod {
 		if (accountFound == null) {
 			return null;
 		}
-			
+
 		return accountFound;
 	}
 
@@ -58,41 +58,48 @@ public class AccountService implements AccountMethod {
 
 	public Account findByAgencyAndAccount(Account account) throws Exception {
 		String checkedAccount = checkFindByAgencyAndAccount(account);
-		if (!checkedAccount.equals("conta verificada"))
+		if (!checkedAccount.equals("conta valida")) {
 			throw new Exception(checkedAccount);
+		}
 
-		Account accountFound = accountRepository.findByAgencyAndAccount(account.getAgency(), account.getAccount())
-				.orElse(null);
-		if (accountFound == null)
-			throw new Exception("conta não encontrada");
+		Account accountFound = accountRepository.findByAgencyAndAccount(account.getAgency(), account.getAccount()).orElse(null);
+		if (accountFound == null) {
+			return accountFound;
+		}
 
 		return accountFound;
 	}
 
 	private String checkFindByAgencyAndAccount(Account account) {
-		if (account.getAgency().isEmpty() || account.getAgency().length() != 6)
+		if (account.getAgency().isEmpty() || account.getAgency().length() != 6) {
 			return "agência invalida";
-		if (account.getAccount().isEmpty() || account.getAccount().length() != 7)
+		} 
+		if (account.getAccount().isEmpty() || account.getAccount().length() != 7) {
 			return "conta invalida";
+		}
 
-		return "conta verificada";
+		return "conta valida";
 	}
 
 	public String transferBalance(Long id1, Long id2, Account account) throws Exception {
-		if (id1 == id2)
+		if (id1 == id2) {
 			throw new Exception("ids iguais");
-
-		Account accountFound1 = accountRepository.findById(id1).orElse(null);
-		if (accountFound1 == null)
-			throw new Exception("conta1 não encontrada");
-
-		Account accountFound2 = accountRepository.findById(id2).orElse(null);
-		if (accountFound2 == null)
-			throw new Exception("conta2 não encontrada");
+		}
 		
 		String balanceChecked = checkTransferBalance(account);
-		if (!balanceChecked.equals("saldo verificado"))
+		if (!balanceChecked.equals("saldo valido")) {
 			throw new Exception(balanceChecked);
+		}
+
+		Account accountFound1 = accountRepository.findById(id1).orElse(null);
+		if (accountFound1 == null) {
+			return "conta 1 não encontrada";
+		}
+
+		Account accountFound2 = accountRepository.findById(id1).orElse(null);
+		if (accountFound2 == null) {
+			return "conta 2 não encontrada";
+		}
 
 		accountFound1.withdraw(account.getBalance());
 		accountFound2.deposit(account.getBalance());
@@ -102,9 +109,10 @@ public class AccountService implements AccountMethod {
 	}
 
 	private String checkTransferBalance(Account account) {
-		if (account.getBalance().doubleValue() == 0)
-			return "saldo nulo";
+		if (account.getBalance().doubleValue() == 0) {
+			return "saldo invalido";
+		}
 
-		return "saldo verificado";
+		return "saldo valido";
 	}
 }

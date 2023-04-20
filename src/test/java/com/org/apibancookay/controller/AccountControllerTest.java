@@ -28,7 +28,7 @@ public class AccountControllerTest {
 
 	@Test
 	@Disabled
-	public void loginAccountByCpfAndPassword() throws Exception {
+	public void loginByCpfAndPassword() throws Exception {
 		Customer customer = new Customer();
 		customer.setCpf("949.612.154-30");
 		customer.setPassword("481228");
@@ -36,7 +36,8 @@ public class AccountControllerTest {
 		mockMvc.perform(post("/accounts/login-by-cpf-and-password")
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsString(customer)))
-		.andDo(print()).andExpect(status().is(200));
+		.andDo(print())
+		.andExpect(status().is(200));
 	}
 
 	@Test
