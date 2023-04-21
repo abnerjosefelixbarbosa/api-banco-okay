@@ -12,8 +12,7 @@ public class ApiBancoOkayApplication implements ApplicationRunner {
 	}
 
 	@Override
-	public void run(ApplicationArguments args) throws Exception {
-	}
+	public void run(ApplicationArguments args) throws Exception {}
 	
 	//http://localhost:8080/v3/api-docs
 	//http://localhost:8080/swagger-ui/index.html

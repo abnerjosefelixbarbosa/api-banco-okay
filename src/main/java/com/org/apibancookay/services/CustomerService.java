@@ -13,6 +13,9 @@ public class CustomerService implements CustomerMethod {
 	private CustomerRepository customerRepository;
 
 	public Customer findByCpfAndPassword(Customer customer) {
-		return customerRepository.findByCpfAndPassword(customer.getCpf(), customer.getPassword()).orElse(null);
+		return customerRepository.findByCpfAndPassword(
+			customer.getCpf(),
+			customer.getPassword()
+		).orElse(null);
 	}
 }

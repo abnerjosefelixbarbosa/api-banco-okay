@@ -14,5 +14,8 @@ import com.org.apibancookay.models.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	@Query("select customer from Customer customer")
 	Page<?> getCustomers(Pageable pageable);
-	Optional<Customer> findByCpfAndPassword(String cpf, String password);
+	Optional<Customer> findByCpfAndPassword(
+		String cpf,
+		String password
+	);
 }

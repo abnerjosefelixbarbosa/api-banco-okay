@@ -49,11 +49,7 @@ public class AccountController {
 			
 			return ResponseEntity.status(200).body(accountLogged);
 		} catch (Exception e) {
-			if (!e.getMessage().equals("conta valida")) {
-				return ResponseEntity.status(400).body(e.getMessage());
-			}
-			
-			return ResponseEntity.status(500).body("erro no servidor");
+			return ResponseEntity.status(400).body(e.getMessage());
 		}
 	}
 
@@ -71,7 +67,7 @@ public class AccountController {
 	public ResponseEntity<?> findByAgencyAndAccount(@RequestBody AccountDTO accountDTO) {
 		try {
 			Account account = new Account();
-			BeanUtils.copyProperties(accountDTO, account);
+			BeanUtils.copyProperties(accountDTO, account);	
 			
 			Account accountFound = accountMethod.findByAgencyAndAccount(account);
 			if (accountFound == null) {
@@ -80,11 +76,7 @@ public class AccountController {
 			
 			return ResponseEntity.status(200).body(accountFound);		
 		} catch (Exception e) {
-			if (!e.getMessage().equals("conta valida")) {
-				return ResponseEntity.status(400).body(e.getMessage());
-			}
-
-			return ResponseEntity.status(500).body("erro no servidor");
+			return ResponseEntity.status(400).body(e.getMessage());
 		}
 	}
 
@@ -95,12 +87,20 @@ public class AccountController {
 		@ApiResponse(responseCode = "404", description = "not found") 
 	})
 	@PutMapping("/transfer-balance/{id1}/{id2}")
-	public ResponseEntity<?> transferBalance(@PathVariable Long id1, @PathVariable Long id2, @RequestBody AccountDTO accountDTO) {
+	public ResponseEntity<?> transferBalance(
+		@PathVariable Long id1,
+		@PathVariable Long id2,
+		@RequestBody AccountDTO accountDTO
+	) {
 		try {
 			Account account = new Account();
 			BeanUtils.copyProperties(accountDTO, account);
 			
-			String balanceTransferred = accountMethod.transferBalance(id1, id2, account);
+			String balanceTransferred = accountMethod.transferBalance(
+					id1,
+					id2,
+					account
+			);
 			if (balanceTransferred.equals("conta 1 não encontrada")) {
 				return ResponseEntity.status(404).body(balanceTransferred);
 			} 
@@ -110,14 +110,7 @@ public class AccountController {
 			
 			return ResponseEntity.status(200).body(balanceTransferred);
 		} catch (Exception e) {
-			if (e.getMessage().equals("ids iguais")) {
-				return ResponseEntity.status(400).body(e.getMessage());
-			}
-			if (!e.getMessage().equals("saldo valido")) {
-				return ResponseEntity.status(400).body(e.getMessage());
-			}
-			
-			return ResponseEntity.status(500).body("erro no servidor");
+			return ResponseEntity.status(400).body(e.getMessage());
 		}
 	}
 }
