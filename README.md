@@ -5,7 +5,7 @@
 
 # About project
 
-Back-end app that allows to make banking transactions at the bank okay, where the customer enters his profile and selects the balance transfer operation to another account.
+API that allows to do banking transactions at the bank okay, where the customer enters his profile and selects the balance transfer operation to another account.
 
 # Features
 
