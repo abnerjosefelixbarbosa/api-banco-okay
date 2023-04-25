@@ -9,9 +9,9 @@ Back-end API which allows to do transactions, where the customer enters his prof
 
 # Features
 
-- Logar pelo Cpf e Senha
-- Procurar pela agência e conta
-- Transferir saldo
+- Login By cpf And Password
+- Find By Agency And Account
+- Transfer Balance
 
 ## Back-end
 
