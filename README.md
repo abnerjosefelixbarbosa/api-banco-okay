@@ -1,13 +1,11 @@
 # api-banco-okay
 
-API Banco Okay
-
 # LICENSE
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/abnerjosefelixbarbosa/api-banco-okay/blob/main/LICENSE)
 
-# sobre o projeto
+# About project
 
-API para gerenciamento bancário da instituição Okay
+Back-end API which allows to do transactions, where the customer enters his profile and selects the balance transfer operation to another account.
 
 # Features
 
@@ -15,7 +13,7 @@ API para gerenciamento bancário da instituição Okay
 - Procurar pela agência e conta
 - Transferir saldo
 
-# Tecnologias
+## Back-end
 
 - Java 17
 - JPA hibernate
@@ -28,7 +26,7 @@ API para gerenciamento bancário da instituição Okay
 - Swagger
 - Lombok
 
-# Execução do Projeto
+# Project Execution
 Pré-requisito: Java 17
 
 ```bash
@@ -36,7 +34,7 @@ Pré-requisito: Java 17
 git clone https://github.com/abnerjosefelixbarbosa/api-banco-okay.git
 ```
 
-# Autor
+# Author
 
 Abner José Felix Barbosa
 
