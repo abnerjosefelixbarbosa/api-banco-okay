@@ -5,7 +5,7 @@
 
 # About project
 
-Back-end API which allows to do transactions, where the customer enters his profile and selects the balance transfer operation to another account.
+API which allows to do transactions, where the customer enters his profile and selects the balance transfer operation to another account.
 
 # Features
 
