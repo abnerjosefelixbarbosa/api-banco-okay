@@ -5,7 +5,7 @@
 
 # About project
 
-API which allows to do transactions, where the customer enters his profile and selects the balance transfer operation to another account.
+Back-end app that allows to make banking transactions at the bank okay, where the customer enters his profile and selects the balance transfer operation to another account.
 
 # Features
 
@@ -30,7 +30,7 @@ API which allows to do transactions, where the customer enters his profile and s
 Pré-requisito: Java 17
 
 ```bash
-# clonar repositório
+# clone repository
 git clone https://github.com/abnerjosefelixbarbosa/api-banco-okay.git
 ```
 
