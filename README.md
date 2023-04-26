@@ -7,6 +7,10 @@
 
 API that allows to do banking transactions at the bank okay, where the customer enters his profile and selects the balance transfer operation to another account.
 
+## Diagram class
+
+![imagem1](https://github.com/abnerjosefelixbarbosa/assents/blob/main/modelo_banco_okay.png)
+
 # Features
 
 - Login By cpf And Password
