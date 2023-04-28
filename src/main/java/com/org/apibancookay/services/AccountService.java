@@ -18,26 +18,6 @@ public class AccountService implements AccountMethod {
 	@Autowired
 	private CustomerMethod customerMethod;
 
-	public Account loginByCpfAndPassword(Customer customer) throws Exception {
-		if (!validCpf(customer.getCpf())) {
-			throw new Exception("cpf invalido");
-		}
-		if (
-			customer.getPassword().isEmpty() || 
-			customer.getPassword().length() != 6
-		) {
-		    throw new Exception("senha invalida");
-		}
-		
-		Customer customerFound = customerMethod.findByCpfAndPassword(customer);
-		Account accountFound = accountRepository.findByCustomer(customerFound).orElse(null);
-		if (accountFound == null) {
-			return null;
-		}
-
-		return accountFound;
-	}
-
 	private boolean validCpf(String cpf) {
 		CPFValidator cpfValidator = new CPFValidator();
 		String newCpf = cpf.replace(".", "").replace("-", "");
@@ -50,24 +30,33 @@ public class AccountService implements AccountMethod {
 		}
 	}
 
+	public Account loginByCpfAndPassword(Customer customer) throws Exception {
+		if (!validCpf(customer.getCpf())) {
+			throw new Exception("cpf invalido");
+		}
+		if (customer.getPassword().isEmpty() || customer.getPassword().length() != 6) {
+			throw new Exception("senha invalida");
+		}
+
+		Customer customerFound = customerMethod.findByCpfAndPassword(customer);
+		Account accountFound = accountRepository.findByCustomer(customerFound).orElse(null);
+		if (accountFound == null) {
+			return null;
+		}
+
+		return accountFound;
+	}
+
 	public Account findByAgencyAndAccount(Account account) throws Exception {
-		if (
-			account.getAgency().isEmpty() ||
-			account.getAgency().length() != 6
-		) {
+		if (account.getAgency().isEmpty() || account.getAgency().length() != 6) {
 			throw new Exception("agência invalida");
-		} 
-		if (
-			account.getAccount().isEmpty() ||
-			account.getAccount().length() != 7
-		) {
+		}
+		if (account.getAccount().isEmpty() || account.getAccount().length() != 7) {
 			throw new Exception("conta invalida");
 		}
-		
-		Account accountFound = accountRepository.findByAgencyAndAccount(
-			account.getAgency(),
-			account.getAccount()
-		).orElse(null);
+
+		Account accountFound = accountRepository.findByAgencyAndAccount(account.getAgency(), account.getAccount())
+				.orElse(null);
 		if (accountFound == null) {
 			return accountFound;
 		}
@@ -75,22 +64,19 @@ public class AccountService implements AccountMethod {
 		return accountFound;
 	}
 
-	public String transferBalance(
-		Long id1,
-		Long id2,
-		Account account
-	) throws Exception {	
+	public String transferBalance(Long id1, Long id2, Account account) throws Exception {
 		if (id1 == id2) {
 			throw new Exception("ids iguais");
 		}
 		if (account.getBalance().doubleValue() == 0) {
 			throw new Exception("saldo invalido");
 		}
-		
+
 		Account accountFound1 = accountRepository.findById(id1).orElse(null);
 		if (accountFound1 == null) {
 			return "conta 1 não encontrada";
 		}
+
 		Account accountFound2 = accountRepository.findById(id2).orElse(null);
 		if (accountFound2 == null) {
 			return "conta 2 não encontrada";
