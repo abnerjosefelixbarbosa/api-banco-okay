@@ -26,10 +26,11 @@ public class AccountController {
 	@Autowired
 	private AccountMethod accountMethod;
 
-	// 949.612.154-30
-	// 481228
-	// 370.897.974-57
-	// 583245
+	//949.612.154-30
+	//481228
+	//
+	//370.897.974-57
+	//583245
 	@Operation(description = "login by cpf and password")
 	@ApiResponses({
 		    @ApiResponse(responseCode = "200", description = "ok"),
@@ -53,10 +54,11 @@ public class AccountController {
 		}
 	}
 
-	// 1568-1
-	// 13681-1
-	// 2210-1
-	// 21224-1
+	//1568-1
+	//13681-1
+	//
+	//2210-1
+	//21224-1
 	@Operation(description = "find by agency and account")
 	@ApiResponses({ 
 		    @ApiResponse(responseCode = "200", description = "ok"),

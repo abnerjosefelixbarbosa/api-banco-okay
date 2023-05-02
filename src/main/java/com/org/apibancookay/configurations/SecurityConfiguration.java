@@ -11,11 +11,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 	@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.headers().frameOptions().disable();
-        http.cors().and().csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeHttpRequests((auth) -> auth.anyRequest().permitAll());
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http.headers()
+            .frameOptions()
+            .disable();
+        http.cors()
+            .and()
+            .csrf()
+            .disable();
+        http.sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.httpBasic()
+            .and()
+            .authorizeHttpRequests((auth) -> {
+            	auth.anyRequest().permitAll();
+            });
         return http.build();
     }
 }
