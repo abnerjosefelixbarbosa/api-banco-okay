@@ -10,10 +10,10 @@
 	</parent>
 
 	<groupId>com.org</groupId>
-	<artifactId>api-banco-okay</artifactId>
+	<artifactId>okay-bank</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api-banco-okay</name>
-	<description>API Banco Okay</description>
+	<name>okay-bank</name>
+	<description>Backend okay bank</description>
 
 	<properties>
 		<java.version>17</java.version>
